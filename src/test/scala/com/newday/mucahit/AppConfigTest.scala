@@ -12,4 +12,13 @@ class AppConfigTest extends FunSuite with Matchers {
     conf.ratingsFilePath shouldBe path2
   }
 
+  test("isValid should return true when fields are provided"){
+    val conf=AppConfig(Some("path1"),Some("path1"))
+    conf.isValid shouldBe true
+  }
+
+  test("isValid should return false when any field is not provided"){
+    val conf=AppConfig(Some(" "),Some("path1"))
+    conf.isValid shouldBe false
+  }
 }
