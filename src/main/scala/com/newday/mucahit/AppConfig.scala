@@ -1,6 +1,8 @@
 package com.newday.mucahit
 
-case class AppConfig(moviesFilePath:String,ratingsFilePath:String){
-  require(Option(moviesFilePath).exists(s=>s.trim.nonEmpty),"movies file path can not be empty")
-  require(Option(ratingsFilePath).exists(s=>s.trim.nonEmpty),"ratings file path can not be empty")
+case class AppConfig(moviesFilePath: Option[String] = None, ratingsFilePath: Option[String] = None)
+
+object AppConfig {
+  def apply(moviesFilePath: String, ratingsFilePath: String): AppConfig =
+    new AppConfig(Option(moviesFilePath), Option(ratingsFilePath))
 }
