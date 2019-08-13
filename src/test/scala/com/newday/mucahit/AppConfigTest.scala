@@ -8,8 +8,8 @@ class AppConfigTest extends FunSuite with Matchers {
     val path1 = Some("path1")
     val path2 = Some("path2")
     val conf=AppConfig(path1,path2)
-    conf.moviesFilePath shouldBe path1
-    conf.ratingsFilePath shouldBe path2
+    conf.moviesInputPath shouldBe path1
+    conf.ratingsInputPath shouldBe path2
   }
 
   test("isValid should return true when fields are provided"){

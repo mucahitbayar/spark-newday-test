@@ -8,7 +8,7 @@ class AppConfigBuilderTest extends FunSuite with Matchers {
     val path1 = "path1"
     val path2 = "path2"
     val conf = AppConfig(path1, path2)
-    val args = Array(s"-${AppConfigBuilder.Fields.moviesFilePath.short}", path1, s"-${AppConfigBuilder.Fields.ratingsFilePath.short}", path2)
+    val args = Array(s"-${AppConfigBuilder.Fields.moviesInputPath.short}", path1, s"-${AppConfigBuilder.Fields.ratingsInputPath.short}", path2)
     val builder = AppConfigBuilder()
     val actual = builder.build(args)
     actual.isSuccess shouldBe true
@@ -20,7 +20,7 @@ class AppConfigBuilderTest extends FunSuite with Matchers {
     val path1 = "path1"
     val path2 = "path2"
     val conf = AppConfig(path1, path2)
-    val args = Array(s"--${AppConfigBuilder.Fields.moviesFilePath.full}", path1, s"--${AppConfigBuilder.Fields.ratingsFilePath.full}", path2)
+    val args = Array(s"--${AppConfigBuilder.Fields.moviesInputPath.full}", path1, s"--${AppConfigBuilder.Fields.ratingsInputPath.full}", path2)
     val builder = AppConfigBuilder()
     val actual = builder.build(args)
     actual.isSuccess shouldBe true

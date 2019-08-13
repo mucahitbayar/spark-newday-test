@@ -1,13 +1,11 @@
 package com.newday.mucahit
 
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Column, DataFrame, SparkSession}
 
-trait DataReader {
-  def columnNames: Seq[String]
+class DataReader {
 
-  def read(spark: SparkSession,filePath: String, delimiter: String): DataFrame = {
+  def read(spark: SparkSession, filePath: String, delimiter: String,columnNames: Seq[String]): DataFrame = {
     import spark.implicits._
     val arrayColumnName = "fields"
     val rawDF = spark.read.text(filePath)
@@ -20,10 +18,4 @@ trait DataReader {
   }
 }
 
-case class MoviesDataReader() extends DataReader {
-  override def columnNames: Seq[String] = Seq("MovieID", "Title", "Genres")
-}
 
-case class RatingsDataReader() extends DataReader {
-  override def columnNames: Seq[String] = Seq("UserID", "MovieID", "Rating", "Timestamp")
-}

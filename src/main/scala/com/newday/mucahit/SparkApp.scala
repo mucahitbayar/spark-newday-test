@@ -14,18 +14,24 @@ object SparkApp {
           .master("local[*]")
           .getOrCreate()
 
-        val saveDir = java.util.UUID.randomUUID().toString
+        val dataReader = new DataReader()
+        val movies = dataReader.read(spark, conf.moviesInputPath.get, conf.delimiter, Fields.MovieFields.fields)
+        val ratings = dataReader.read(spark, conf.ratingsInputPath.get, conf.delimiter, Fields.RatingFields.fields)
+        movies.write.parquet(conf.moviesOutputPath.get)
+        ratings.write.parquet(conf.ratingsOutputPath.get)
 
-        val delimiter = "::"
-        val moviesDataReader = MoviesDataReader()
-        val ratingsDataReader = RatingsDataReader()
-        val movies = moviesDataReader.read(spark, conf.moviesFilePath.get, delimiter)
-        val ratings = ratingsDataReader.read(spark, conf.ratingsFilePath.get, delimiter)
-        movies.write.parquet(s"${saveDir}/movies")
-        ratings.write.parquet(s"${saveDir}/ratings")
+
+        val joinedDF = movies.join(ratings, Fields.MovieFields.movieId)
+
+        val movieRatings = Aggregator.aggregate(joinedDF)
+
+        val topRatingsDF = Aggregator.rank(joinedDF,3)
+
 
       case Failure(exception) =>
         throw new Exception(exception)
     }
   }
+
+
 }
