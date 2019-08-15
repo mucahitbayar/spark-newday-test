@@ -14,19 +14,8 @@ object SparkApp {
           .master("local[*]")
           .getOrCreate()
 
-        val dataReader = new DataReader()
-        val movies = dataReader.read(spark, conf.moviesInputPath.get, conf.delimiter, Fields.MovieFields.fields)
-        val ratings = dataReader.read(spark, conf.ratingsInputPath.get, conf.delimiter, Fields.RatingFields.fields)
-        movies.write.parquet(conf.moviesOutputPath.get)
-        ratings.write.parquet(conf.ratingsOutputPath.get)
-
-
-        val joinedDF = movies.join(ratings, Fields.MovieFields.movieId)
-
-        val movieRatings = Aggregator.aggregate(joinedDF)
-
-        val topRatingsDF = Aggregator.rank(joinedDF,3)
-
+        val runner = NewDaySparkRunner(conf)
+        runner.run(spark)
 
       case Failure(exception) =>
         throw new Exception(exception)

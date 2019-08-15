@@ -4,7 +4,7 @@ case class AppConfig(moviesInputPath: Option[String] = None,
                      moviesOutputPath: Option[String] = None,
                      ratingsInputPath: Option[String] = None,
                      ratingsOutputPath: Option[String] = None,
-                     delimiter:String=",") {
+                     delimiter: String = ",") {
   lazy val isValid: Boolean =
     moviesInputPath.exists(_.trim.nonEmpty) &&
       moviesOutputPath.exists(_.trim.nonEmpty) &&
@@ -14,6 +14,15 @@ case class AppConfig(moviesInputPath: Option[String] = None,
 }
 
 object AppConfig {
-  def apply(moviesFilePath: String, ratingsFilePath: String): AppConfig =
-    new AppConfig(Option(moviesFilePath), Option(ratingsFilePath))
+  def apply(moviesFilePath: String,
+            moviesOutputPath: String,
+            ratingsFilePath: String,
+            ratingsOutputPath: String,
+            delimiter: String): AppConfig = {
+    new AppConfig(Option(moviesFilePath),
+      Option(moviesOutputPath),
+      Option(ratingsFilePath),
+      Option(ratingsOutputPath),
+      delimiter)
+  }
 }

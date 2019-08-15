@@ -5,15 +5,26 @@ import org.scalatest.{FunSuite, Matchers}
 class AppConfigTest extends FunSuite with Matchers {
 
   test("it should successfully construct when parameters are provided") {
-    val path1 = Some("path1")
-    val path2 = Some("path2")
-    val conf=AppConfig(path1,path2)
-    conf.moviesInputPath shouldBe path1
-    conf.ratingsInputPath shouldBe path2
+    val inputPath1 = "inputPath1"
+    val outputPath1 = "outputPath1"
+    val inputPath2 = "inputPath2"
+    val outputPath2 = "outputPath2"
+    val delimiter="::"
+    val conf = AppConfig(inputPath1, outputPath1, inputPath2, outputPath2,delimiter)
+    conf.moviesInputPath shouldBe Some(inputPath1)
+    conf.moviesOutputPath shouldBe Some(outputPath1)
+    conf.ratingsInputPath shouldBe Some(inputPath2)
+    conf.ratingsOutputPath shouldBe Some(outputPath2)
+    conf.delimiter shouldBe delimiter
   }
 
   test("isValid should return true when fields are provided"){
-    val conf=AppConfig(Some("path1"),Some("path1"))
+    val inputPath1 = "inputPath1"
+    val outputPath1 = "outputPath1"
+    val inputPath2 = "inputPath2"
+    val outputPath2 = "outputPath2"
+    val delimiter="::"
+    val conf = AppConfig(inputPath1, outputPath1, inputPath2, outputPath2,delimiter)
     conf.isValid shouldBe true
   }
 
